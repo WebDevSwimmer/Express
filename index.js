@@ -1,4 +1,7 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
 var app = express();
 
 app.use(express.static('public'));
@@ -11,27 +14,27 @@ app.use(express.static('images'));
 //    res.send('The id you specified is ' + req.params.id);
 // });
 
-app.set('view engine', 'pug');
-app.set('views','./views');
+// app.set('view engine', 'pug');
+// app.set('views','./views');
 
-app.get('/static_file_test', function(req, res){
-  res.render('testimage');
-});
+// app.get('/static_file_test', function(req, res){
+//   res.render('testimage');
+// });
 
-app.get('/first_template', function(req, res){
-  res.render('first_view');
-});
+// app.get('/first_template', function(req, res){
+//   res.render('first_view');
+// });
 
-app.get('/dynamic_view', function(req, res){
-   res.render('dynamic', {
-      name: "TutorialsPoint", 
-      url:"http://www.tutorialspoint.com"
-   });
-});
+// app.get('/dynamic_view', function(req, res){
+//    res.render('dynamic', {
+//       name: "TutorialsPoint", 
+//       url:"http://www.tutorialspoint.com"
+//    });
+// });
 
-app.get('/components', function(req, res){
-  res.render('content');
-});
+// app.get('/components', function(req, res){
+//   res.render('content');
+// });
 
 //Simple request time logger
 	// app.use(function(req, res, next){
@@ -43,15 +46,39 @@ app.get('/components', function(req, res){
 	// 	next();
 	// });
 
-app.get('/things/:name/:id', function(req, res) {
-  res.send('id: ' + req.params.id + ' and name: ' + req.params.name);
+// app.get('/things/:name/:id', function(req, res) {
+//   res.send('id: ' + req.params.id + ' and name: ' + req.params.name);
+// });
+
+// app.get('/things/:id([0-9]{5})', function(req, res){
+//   res.send('id: ' + req.params.id);
+// });
+
+// app.get('*', function(req, res){
+//   res.send('Sorry, this is an invalid URL.');
+// });
+
+app.get('/', function(req, res){
+   res.render('form');
 });
 
-app.get('/things/:id([0-9]{5})', function(req, res){
-  res.send('id: ' + req.params.id);
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+// for parsing application/json
+app.use(bodyParser.json()); 
+
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
+//form-urlencoded
+
+// for parsing multipart/form-data
+app.use(upload.array()); 
+app.use(express.static('public'));
+
+app.post('/', function(req, res){
+   console.log(req.body);
+   res.send("recieved your request!");
 });
 
-app.get('*', function(req, res){
-  res.send('Sorry, this is an invalid URL.');
-});
 app.listen(3000);
