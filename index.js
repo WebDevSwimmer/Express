@@ -9,6 +9,13 @@ var app = express();
 //    res.send('The id you specified is ' + req.params.id);
 // });
 
+app.set('view engine', 'pug');
+app.set('views','./views');
+
+app.get('/first_template', function(req, res){
+  res.render('first_view');
+});
+
 //Simple request time logger
 app.use(function(req, res, next){
 	console.log("A new request received at " + Date.now());
