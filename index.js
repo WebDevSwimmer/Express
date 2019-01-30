@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 
+app.use(express.static('public'));
+app.use(express.static('images'));
 // var things = require('./things.js');
 
 // app.use('/things', things);
@@ -12,10 +14,13 @@ var app = express();
 app.set('view engine', 'pug');
 app.set('views','./views');
 
+app.get('/static_file_test', function(req, res){
+  res.render('testimage');
+});
+
 app.get('/first_template', function(req, res){
   res.render('first_view');
 });
-
 
 app.get('/dynamic_view', function(req, res){
    res.render('dynamic', {
